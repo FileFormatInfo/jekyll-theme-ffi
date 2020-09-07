@@ -25,15 +25,30 @@
                 style="vertical-align:middle" border="0" src="{{site.ROOT_PREFIX}}images/16x16/t-folder.png"
                 alt="Browse directory" title="Browse directory" /></a>
         <a class="navbar-link text-white" href="{{site.ROOT_PREFIX}}index.htm">FileFormat.Info</a>
+        {% assign parentPath = '' -%}
+        {% if jekyll.environment == "production" -%}
+        {% for parent in site.CRUMBTRAIL_PARENTS -%}
+        {% assign parentPath = parentPath | append: parent -%}
+        {% assign parentPath = parentPath | append: '/' -%}
         <span class="navbar-text text-light px-2">&raquo;</span>
-        <a class="navbar-link pr-1" href="{{site.ROOT_PREFIX}}format/index.dir"><img height="16" width="16"
+        <a class="navbar-link pr-1" href="{{site.ROOT_PREFIX}}{{parentPath}}index.dir"><img height="16" width="16"
                 style="vertical-align:middle" border="0" src="{{site.ROOT_PREFIX}}images/16x16/t-folder.png"
                 alt="Browse directory" title="Browse directory" /></a>
-        <a class="navbar-link text-white" href="{{site.ROOT_PREFIX}}format/index.htm">Specific Formats</a>
-        <span class="navbar-text text-light px-2">&raquo;</span>
-        <a class="navbar-link pr-1" href="files.html"><img height="16" width="16" style="vertical-align:middle"
+        <a class="navbar-link text-white" href="{{site.ROOT_PREFIX}}{{parentPath}}index.htm">{{site.CRUMBTRAIL_TEXT[parent] | default: parent}}</a>
+        {% endfor -%}
+        {% endif -%}
+        {% assign localDirs = page.path | split: '/' -%}
+        {% for localDir in localDirs -%}
+        {% assign parentPath = parentPath | append: localDir -%}
+        {% assign parentPath = parentPath | append: '/' -%}
+        {% if forloop.last %}
+        {% else %}
+            <span class="navbar-text text-light px-2">&raquo;</span>
+        <a class="navbar-link pr-1" href="{{site.ROOT_PREFIX}}{{parentPath}}index.dir"><img height="16" width="16" style="vertical-align:middle"
                 border="0" src="{{site.ROOT_PREFIX}}images/16x16/t-folder.png" alt="Browse directory"
                 title="Browse directory" /></a>
-        <a class="navbar-link text-white" href="index.html">{{site.format_title}}</a>
+        <a class="navbar-link text-white" href="{% if jekyll.environment == "production" %}{{site.ROOT_PREFIX}}{% else %}/{% endif %}{{parentPath}}{{site.LOCAL_INDEX}}">{{site.CRUMBTRAIL_TEXT[localDir] | default: localDir }}</a>
+        {% endif -%}
+        {% endfor -%}
     </div>
 </nav>

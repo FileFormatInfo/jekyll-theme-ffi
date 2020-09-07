@@ -2,7 +2,7 @@
 # _config.yml for TIL
 #
 
-exclude: [ "**/*.sh" ]
+exclude: [ "LICENSE.*", "README.md", "**/*.sh" ]
 title: FileFormat.Info Subsite
 markdown: kramdown
 theme: null
@@ -13,8 +13,15 @@ defaults:
     values:
       layout: "default"
 
-format_handle: test
-format_title: Testing
-format_extensions: [ 'test', 'testing']
 google_analytics_id: LATER
 ROOT_PREFIX: https://www.fileformat.info/
+
+# used if the ffi location is subdirectory that doesn't exist in the subsection repo
+CRUMBTRAIL_PARENTS: []
+
+# used in the crumbtrail link for local directories
+LOCAL_INDEX: index.html
+
+# used for nicer text in the crumbtrail
+CRUMBTRAIL_TEXT:
+  example: Examples
